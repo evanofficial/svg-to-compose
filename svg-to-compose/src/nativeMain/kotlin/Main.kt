@@ -23,7 +23,9 @@ import dev.tonholo.s2c.inject.createS2cGraph
 import dev.tonholo.s2c.logger.CommonLogger
 import dev.tonholo.s2c.logger.printEmpty
 import dev.tonholo.s2c.parser.ParserConfig
+import dev.tonholo.s2c.parser.config.TemplateConfig
 import okio.FileSystem
+import okio.Path.Companion.toPath
 import platform.posix.exit
 
 private const val MANUAL_LINE_BREAK = "\u0085"
@@ -167,6 +169,17 @@ class Client : CliktCommand(name = "s2c") {
             "--indent-size or --indent-style are specified.",
     ).flag()
 
+    private val templatePath by option(
+        names = arrayOf("--template"),
+        help = "Path to an s2c.template.toml file for output customization. " +
+            "When omitted, auto-discovers by walking up from the output directory.",
+    )
+
+    private val noTemplate by option(
+        names = arrayOf("--no-template"),
+        help = "Disable auto-discovery of s2c.template.toml files.",
+    ).flag()
+
     private val mapIconNameTo by option(
         names = arrayOf("--map-icon-name-from-to", "--from-to", "--rename"),
         help = """Replace the icon's name first value of this parameter with the second. 
@@ -211,6 +224,8 @@ class Client : CliktCommand(name = "s2c") {
         logger.verbose("   indentSize = $indentSize")
         logger.verbose("   indentStyle = $indentStyle")
         logger.verbose("   noEditorConfig = $noEditorConfig")
+        logger.verbose("   templatePath = $templatePath")
+        logger.verbose("   noTemplate = $noTemplate")
 
         AppConfig.verbose = verbose
         AppConfig.debug = verbose || debug
@@ -239,6 +254,10 @@ class Client : CliktCommand(name = "s2c") {
                     exclude = exclude?.let(::Regex),
                     formatConfig = buildFormatConfig(),
                     formatOverrides = buildFormatOverrides(),
+                    template = TemplateConfig(
+                        configPath = templatePath?.toPath(),
+                        noDiscovery = noTemplate,
+                    ),
                 ),
                 recursive = recursive,
                 maxDepth = recursiveDepth,
