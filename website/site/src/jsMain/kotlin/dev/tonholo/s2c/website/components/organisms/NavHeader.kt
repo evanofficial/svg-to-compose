@@ -283,6 +283,7 @@ private fun SideMenuItems(onNavigate: () -> Unit) {
         )
         NavLink("/docs/cli", "CLI", modifier = clickModifier)
         NavLink("/docs/gradle-plugin", "Gradle Plugin", modifier = clickModifier)
+        NavLink("/docs/templates", "Template System", modifier = clickModifier)
         NavLink("/api-docs/index.html", "API Reference", modifier = clickModifier)
     }
 }

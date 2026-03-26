@@ -38,6 +38,7 @@ import com.varabyte.kobweb.core.init.InitRoute
 import com.varabyte.kobweb.core.init.InitRouteContext
 import com.varabyte.kobweb.core.layout.Layout
 import com.varabyte.kobweb.silk.components.icons.fa.FaCode
+import com.varabyte.kobweb.silk.components.icons.fa.FaFileCode
 import com.varabyte.kobweb.silk.components.icons.fa.FaTerminal
 import com.varabyte.kobweb.silk.components.icons.fa.IconSize
 import com.varabyte.kobweb.silk.components.navigation.Link
@@ -218,6 +219,13 @@ fun DocsPage() {
                     "with smart caching and incremental builds.",
                 href = "/docs/gradle-plugin",
                 icon = { GradleSvg(color = palette.primary, modifier = Modifier.size(1.85.cssRem)) },
+            )
+            DocsCard(
+                title = "Template System",
+                description = "Customize generated Kotlin code with TOML-based templates. " +
+                    "Control property shapes, imports, previews, and more.",
+                href = "/docs/templates",
+                icon = { FaFileCode(modifier = Modifier.color(palette.primary), size = IconSize.LG) },
             )
             DocsCard(
                 title = "API Reference",

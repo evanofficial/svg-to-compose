@@ -42,6 +42,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.top
 import com.varabyte.kobweb.compose.ui.modifiers.transition
 import com.varabyte.kobweb.compose.ui.modifiers.translateY
 import com.varabyte.kobweb.compose.ui.modifiers.zIndex
+import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.icons.fa.FaChevronDown
 import com.varabyte.kobweb.silk.components.icons.fa.IconSize
 import com.varabyte.kobweb.silk.components.navigation.Link
@@ -149,10 +150,11 @@ fun DocNavDropdown(modifier: Modifier = Modifier) {
                 }
             },
     ) {
+        val context = rememberPageContext()
         Row(
             modifier = DocNavDropdownTriggerStyle
                 .toModifier()
-                .onClick { isOpen = !isOpen }
+                .onClick { context.router.navigateTo("/docs") }
                 .attrsModifier {
                     attr("aria-expanded", isOpen.toString())
                     attr("aria-haspopup", "true")
@@ -212,6 +214,14 @@ private fun DropdownPanel(isOpen: Boolean) {
         Link(
             path = "/docs/gradle-plugin",
             text = "Gradle Plugin",
+            modifier = DocNavDropdownLinkStyle.toModifier()
+                .tabIndex(linkTabIndex)
+                .role("menuitem"),
+            variant = docLinkVariant,
+        )
+        Link(
+            path = "/docs/templates",
+            text = "Template System",
             modifier = DocNavDropdownLinkStyle.toModifier()
                 .tabIndex(linkTabIndex)
                 .role("menuitem"),
